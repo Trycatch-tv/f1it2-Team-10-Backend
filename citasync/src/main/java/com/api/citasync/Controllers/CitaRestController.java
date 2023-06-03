@@ -1,7 +1,9 @@
-package com.api.citasync.Controllers;
+package com.api.citasync.controllers;
 
-import com.api.citasync.Models.Cita;
-import com.api.citasync.Services.CitaService;
+import com.api.citasync.dto.CitaDto;
+import com.api.citasync.models.Cita;
+import com.api.citasync.services.CitaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,14 +37,14 @@ public class CitaRestController {
     /**
      *http://localhost:8080/api/citas/crear
      * @param cita
+     *  // Crea una nueva cita desde el cuerpo de la solicitud JSON.
      * @return
+     * // Devuelve la cita creada como una respuesta JSON con un código de estado 201 Creado.
      */
-    @PostMapping(value = "crear",headers = "Accept=application/json")
-    public ResponseEntity<Cita> createCita(@RequestBody Cita cita) {
-        // Crea una nueva cita desde el cuerpo de la solicitud JSON.
+    @PostMapping(value = "crear")
+    public ResponseEntity<CitaDto> createCita(@RequestBody @Valid CitaDto cita ) {
         Cita createdCita = citaService.crearCita(cita);
-        // Devuelve la cita creada como una respuesta JSON con un código de estado 201 Creado.
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdCita);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CitaDto(createdCita));
     }
 
 }
