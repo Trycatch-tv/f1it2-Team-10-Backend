@@ -1,6 +1,5 @@
 package com.api.citasync.dto;
 import com.api.citasync.models.Cita;
-import com.api.citasync.models.Estado;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,12 +28,12 @@ public record CitaDto (
         @Size(min = 10, max = 1000) String detalles,
 
 // The state of the Cita.
-        @NotNull Estado estado
+        @NotNull String estado
 
 ) {
 
     //contructor con parametros para crear un objeto Cita
     public CitaDto(Cita cita) {
-        this(cita.getId(), cita.getNombre(), cita.getFecha(), cita.getHora(), cita.getDuracion(), cita.getUbicacion(), cita.getDetalles(), Estado.valueOf(cita.getEstado()));
+        this(cita.getId(), cita.getNombre(), cita.getFecha(), cita.getHora(), cita.getDuracion(), cita.getUbicacion(), cita.getDetalles(), cita.getEstado());
     }
 }

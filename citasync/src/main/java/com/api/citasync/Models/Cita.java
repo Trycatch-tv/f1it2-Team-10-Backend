@@ -1,5 +1,6 @@
 package com.api.citasync.models;
 
+import com.api.citasync.dto.CitaActualizarDto;
 import com.api.citasync.dto.CitaDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -49,6 +50,16 @@ public class Cita {
         this.duracion = datosCita.duracion();
         this.ubicacion = datosCita.ubicacion();
         this.detalles = datosCita.detalles();
-        this.estado = String.valueOf(datosCita.estado());
+        this.estado = datosCita.estado();
     }
+    public void actualizar(CitaActualizarDto datosCita) {
+        this.nombre = datosCita.nombre();
+        this.fecha = datosCita.fecha();
+        this.hora = datosCita.hora();
+        this.duracion = datosCita.duracion();
+        this.ubicacion = datosCita.ubicacion();
+        this.detalles = datosCita.detalles();
+        this.estado = datosCita.estado();
+    }
+
 }

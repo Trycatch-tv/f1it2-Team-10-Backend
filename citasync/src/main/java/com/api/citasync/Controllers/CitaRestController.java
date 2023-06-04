@@ -1,5 +1,6 @@
 package com.api.citasync.controllers;
 
+import com.api.citasync.dto.CitaActualizarDto;
 import com.api.citasync.dto.CitaDto;
 import com.api.citasync.models.Cita;
 import com.api.citasync.services.CitaService;
@@ -36,15 +37,33 @@ public class CitaRestController {
 
     /**
      *http://localhost:8080/api/citas/crear
-     * @param cita
-     *  // Crea una nueva cita desde el cuerpo de la solicitud JSON.
-     * @return
-     * // Devuelve la cita creada como una respuesta JSON con un código de estado 201 Creado.
+     * @param cita cuerpo de la solicitud JSON
+     * @return la cita creada como una respuesta JSON con un código de estado 201
      */
     @PostMapping(value = "crear")
     public ResponseEntity<CitaDto> createCita(@RequestBody @Valid CitaDto cita ) {
         Cita createdCita = citaService.crearCita(cita);
         return ResponseEntity.status(HttpStatus.CREATED).body(new CitaDto(createdCita));
     }
+
+    /**
+     * Actualizar una cita en la base de datos
+     * @param id identificador de la cita
+     * @param cita cuerpo de la solicitud JSON
+     * @return la cita actualizada como una respuesta JSON con un código de estado 200
+     */
+    @PutMapping(value = "actualizar/{id}")
+    public ResponseEntity<CitaDto> actualizarCita(@PathVariable Long id, @RequestBody CitaActualizarDto cita) {
+        CitaDto updatedCita = citaService.actualizarCita(id, cita);
+        return ResponseEntity.ok(updatedCita);
+    }
+
+    @PutMapping(value = "finalizar/{id}")
+    public ResponseEntity<Cita> actualizarEstado(@PathVariable Long id) {
+        citaService.finalizarCita(id);
+        return ResponseEntity.ok().build();
+    }
+
+
 
 }
