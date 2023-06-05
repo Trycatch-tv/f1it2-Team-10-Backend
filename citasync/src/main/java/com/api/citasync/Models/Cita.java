@@ -25,10 +25,10 @@ public class Cita {
     @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "fecha_cita")
+    @Column(name = "fecha_cita" ,unique = true)
     private Date fecha;
 
-    @Column(name = "hora_cita")
+    @Column(name = "hora_cita" ,unique = true)
     private Time hora;
 
     @Column(name = "duracion")

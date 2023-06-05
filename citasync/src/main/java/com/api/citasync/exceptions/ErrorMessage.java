@@ -10,5 +10,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ErrorMessage {
-    private String message;
+    private String campo;
+    private String mensaje;
 }

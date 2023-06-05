@@ -17,23 +17,26 @@ public class CitaService {
     public CitaService(CitaRepository citaRepository) {
         this.citaRepository = citaRepository;
     }
-    // Este método crea una nueva cita y la guarda en la base de datos.
-    public Cita crearCita(CitaDto datosCita) {
-        return citaRepository.save(new Cita(datosCita));
-    }
-    // Este método devuelve una lista de todas las citas de la base de datos.
+
+    // Recuperar todas las citas de la base de datos.
     public List<Cita> listarCitas() {
         return citaRepository.findAll();
     }
-
-    // Este método actualiza una cita en la base de datos.
+    //buscar por id
+    public Cita buscarCita(Long id) {
+        return citaRepository.findById(id).get();
+    }
+    // Crear una nueva cita en la base de datos.
+    public Cita crearCita(CitaDto datosCita) {
+        return citaRepository.save(new Cita(datosCita));
+    }
+    // Actualizar una cita en la base de datos.
     public CitaDto actualizarCita(Long id, CitaActualizarDto datosCita) {
         Cita cita = citaRepository.getReferenceById(id);
         cita.actualizar(datosCita);
         return new CitaDto(cita);
     }
-
-    // Este método cancela una cita en la base de datos lo modificamos atrabes del modelo de Estado.
+    // Finalizar una cita en la base de datos.
     public void finalizarCita(Long id) {
         Cita cita = citaRepository.findById(id).get();
         cita.setEstado("FINALIZADA");
