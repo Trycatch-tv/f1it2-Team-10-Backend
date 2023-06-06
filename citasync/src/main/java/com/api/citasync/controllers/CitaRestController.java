@@ -23,30 +23,42 @@ public class CitaRestController {
     }
 
 
-    //Este método recupera todas las citas de la base de datos y las devuelve como una respuesta JSON.
     /**
-     *http://localhost:8080/api/citas/listar
-     * @return
+     * http://localhost:8080/api/citas
+     * Recuperar todas las citas de la base de datos
+     * @return la lista de citas como una respuesta JSON
      */
-    @GetMapping(value = "listar",headers = "Accept=application/json")
-    public ResponseEntity<List<Cita>> listarCitas() {
-        // Recuperar todas las citas de la base de datos.
-        List<Cita> citas = citaService.listarCitas();
-        // Devuelve las citas como una respuesta JSON.
+    @GetMapping()
+    public ResponseEntity<List<DtoMapeoCita>> listarCitas() {
+        List<DtoMapeoCita> citas = citaService.listarCitas();
+        return ResponseEntity.ok(citas);
+    }
+
+    @GetMapping(value = "/listar")
+    public ResponseEntity<List<DtoMapeoCita>> listarCitas2() {
+        List<DtoMapeoCita> citas = citaService.ListarCitas2();
         return ResponseEntity.ok(citas);
     }
 
     /**
-     *http://localhost:8080/api/citas/crear
-     * @param cita
-     * @return
+     * http://localhost:8080/api/citas
+     * Crear una nueva cita en la base de datos
+     * @param cita cuerpo de la solicitud JSON
+     * @return la cita creada como una respuesta JSON con un código de estado 201
      */
-    @PostMapping(value = "crear",headers = "Accept=application/json")
-    public ResponseEntity<DtoMapeoCita> createCita(@RequestBody @Valid DtoMapeoCita cita) {
-        Cita createdCita = citaService.crearCita(cita);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new DtoMapeoCita(createdCita));
+    @PostMapping()
+    public ResponseEntity<DtoMapeoCita> createCita(@RequestBody @Valid DtoMapeoCita cita ) {
+        DtoMapeoCita createdCita = citaService.crearCita(cita);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCita);
     }
 
+    /**
+     * http://localhost:8080/api/citas/id
+     * Actualizar una cita en la base de datos
+     * @param id identificador de la cita
+     * @param cita cuerpo de la solicitud JSON
+     * @return la cita actualizada como una respuesta JSON con un código de estado 200
+     */
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<DtoMapeoCita> actualizarCita(@PathVariable Long id, @RequestBody DtoActualizarCita cita){
@@ -54,10 +66,16 @@ public class CitaRestController {
         return ResponseEntity.ok(citaActualizada);
     }
 
-    @DeleteMapping("/{id}")
+    /**
+     * Finalizar (Eliminar) una cita en la base de datos
+     * http://localhost:8080/api/citas/finalizar/id
+     * @param id identificador de la cita
+     * @return
+     */
+    @PutMapping("finalizar/{id}")
     @Transactional
-    public ResponseEntity<Void> eliminarCita(@PathVariable Long id){
-        citaService.eliminarCita(id);
+    public ResponseEntity<Void> finalizarCita(@PathVariable Long id){
+        citaService.finalizarCita(id);
         return ResponseEntity.noContent().build();
     }
 

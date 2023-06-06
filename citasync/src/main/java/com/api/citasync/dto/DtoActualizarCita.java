@@ -3,9 +3,10 @@ package com.api.citasync.dto;
 import com.api.citasync.models.Cita;
 
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
 
-public record DtoActualizarCita(Date fecha, Time hora, Integer duracion,
+
+public record DtoActualizarCita(LocalDate fecha, Time hora, Integer duracion,
                                 String ubicacion, String detalles) {
 
     public DtoActualizarCita(Cita cita){

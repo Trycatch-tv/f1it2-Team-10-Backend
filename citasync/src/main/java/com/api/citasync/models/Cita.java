@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -26,7 +26,7 @@ public class Cita {
     private String nombre;
 
     @Column(name = "fecha_cita")
-    private Date fecha;
+    private LocalDate fecha;
 
     @Column(name = "hora_cita")
     private Time hora;
@@ -61,9 +61,11 @@ public class Cita {
     public void actualizarDatos(DtoActualizarCita datosCita) {
         if (datosCita.fecha() != null ){
             this.fecha = datosCita.fecha();
+            this.estado = Estado.REAGENDADA;
         }
         if (datosCita.hora() != null ){
             this.hora = datosCita.hora();
+            this.estado = Estado.REAGENDADA;
         }
         if (datosCita.duracion() != null ){
             this.duracion = datosCita.duracion();

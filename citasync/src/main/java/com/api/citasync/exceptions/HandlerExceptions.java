@@ -26,4 +26,11 @@ public class HandlerExceptions {
         ErrorMessage error = ErrorMessage.builder().mensaje(e.getMessage()).build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+
+    @ExceptionHandler(CitaExistenteExcepcion.class)
+    public ResponseEntity<?> CitaExistenteExcepcion(CitaExistenteExcepcion e){
+        ErrorMessage error = ErrorMessage.builder().mensaje(e.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
 }
