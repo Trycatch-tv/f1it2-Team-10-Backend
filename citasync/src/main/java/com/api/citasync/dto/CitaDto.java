@@ -27,7 +27,7 @@ public record CitaDto(
         @NotBlank(message = "el nombre es obligatorio")
         String ubicacion,
         @NotNull
-        @Size(min = 10, max = 1000)
+        @Size(min = 10, max = 1000, message= "El tamaño del campo debe estar entre 10 y 1000 caracteres")
         String detalles,
         Estado estado) {
 
