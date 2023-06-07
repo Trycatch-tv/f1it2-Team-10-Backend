@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestControllerAdvice
@@ -27,9 +28,17 @@ public class HandlerExceptions {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(CitaExistenteExcepcion.class)
-    public ResponseEntity<?> CitaExistenteExcepcion(CitaExistenteExcepcion e){
+    @ExceptionHandler(CitaExistenteExceptcion.class)
+    public ResponseEntity<?> CitaExistenteExcepcion(CitaExistenteExceptcion e){
         ErrorMessage error = ErrorMessage.builder().mensaje(e.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+
+    @ExceptionHandler(DateTimeParseException.class)
+    public ResponseEntity<?> DateTimeParseException(DateTimeParseException e){
+        String mensaje = "El formato de fecha es incorrecto. Debe ser en formato yyyy-MM-dd.";
+        ErrorMessage error = ErrorMessage.builder().mensaje(mensaje).build();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 

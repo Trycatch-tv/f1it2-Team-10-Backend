@@ -1,20 +1,15 @@
 package com.api.citasync.models;
 
 import com.api.citasync.dto.DtoActualizarCita;
-import com.api.citasync.dto.DtoMapeoCita;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 import java.sql.Time;
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "citas")
 public class Cita {
@@ -43,20 +38,6 @@ public class Cita {
     @Column(name = "estado")
     @Enumerated(EnumType.STRING)
     private Estado estado;
-
-    public Cita(DtoMapeoCita datosCita) {
-        this.nombre = datosCita.nombre();
-        this.fecha = datosCita.fecha();
-        this.hora = datosCita.hora();
-        this.duracion = datosCita.duracion();
-        this.ubicacion = datosCita.ubicacion();
-        this.detalles = datosCita.detalles();
-        this.estado = datosCita.estado();
-    }
-
-    public void actualizarEstado() {
-        this.estado = Estado.FINALIZADA;
-    }
 
     public void actualizarDatos(DtoActualizarCita datosCita) {
         if (datosCita.fecha() != null ){

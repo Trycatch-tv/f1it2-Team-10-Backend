@@ -5,13 +5,14 @@ import com.api.citasync.models.Estado;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Time;
 import java.time.LocalDate;
 
-
-public record DtoMapeoCita(
+@Builder
+public record CitaDto(
         Long id,
         @NotBlank(message = "el nombre es obligatorio")
         String nombre,
@@ -28,11 +29,31 @@ public record DtoMapeoCita(
         @NotNull
         @Size(min = 10, max = 1000)
         String detalles,
-        @NotNull
         Estado estado) {
 
-    public DtoMapeoCita(Cita cita){
-        this(cita.getId(), cita.getNombre(), cita.getFecha(), cita.getHora(),
-                cita.getDuracion(), cita.getUbicacion(), cita.getDetalles(), cita.getEstado());
+    public static CitaDto fromEntity(Cita cita){
+        return CitaDto.builder()
+                .id(cita.getId())
+                .nombre(cita.getNombre())
+                .fecha(cita.getFecha())
+                .hora(cita.getHora())
+                .duracion(cita.getDuracion())
+                .ubicacion(cita.getUbicacion())
+                .detalles(cita.getDetalles())
+                .estado(cita.getEstado())
+                .build();
+    }
+
+    public static Cita toEntity(CitaDto cita){
+        return Cita.builder()
+                .id(cita.id)
+                .nombre(cita.nombre)
+                .fecha(cita.fecha)
+                .hora(cita.hora)
+                .duracion(cita.duracion)
+                .ubicacion(cita.ubicacion)
+                .detalles(cita.detalles)
+                .build();
+
     }
 }
