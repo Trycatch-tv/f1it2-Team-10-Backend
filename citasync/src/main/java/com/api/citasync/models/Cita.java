@@ -1,6 +1,6 @@
 package com.api.citasync.models;
 
-import com.api.citasync.dto.DtoActualizarCita;
+import com.api.citasync.dto.CitaDtoActualizar;
 import jakarta.persistence.*;
 import lombok.*;
 import java.sql.Time;
@@ -39,7 +39,7 @@ public class Cita {
     @Enumerated(EnumType.STRING)
     private Estado estado;
 
-    public void actualizarDatos(DtoActualizarCita datosCita) {
+    public void actualizarDatos(CitaDtoActualizar datosCita) {
         if (datosCita.fecha() != null ){
             this.fecha = datosCita.fecha();
             this.estado = Estado.REAGENDADA;

@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 public interface CitaRepository extends JpaRepository<Cita, Long> {
     boolean existsByFechaAndHoraAndEstadoIn(LocalDate fecha, Time hora, List<Estado> estados);
-
     List<Cita> findAllByEstadoNotIn(List<Estado> estado);
+
 
 
 }
