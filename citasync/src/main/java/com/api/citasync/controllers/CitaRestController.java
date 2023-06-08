@@ -3,6 +3,7 @@ package com.api.citasync.controllers;
 import com.api.citasync.dto.CitaDtoActualizar;
 import com.api.citasync.dto.CitaDto;
 import com.api.citasync.services.CitaService;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -64,7 +65,8 @@ public class CitaRestController {
     @Operation(summary = "Crear una nueva cita en la base de datos")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Cita creada"),
-            @ApiResponse(responseCode = "400", description = "Cita no creada")
+            @ApiResponse(responseCode = "400", description = "Cita no creada"),
+            @ApiResponse(responseCode = "409", description = "Cita ya existe")
 
     })
     public ResponseEntity<CitaDto> crearCita(@RequestBody @Valid CitaDto cita ) {

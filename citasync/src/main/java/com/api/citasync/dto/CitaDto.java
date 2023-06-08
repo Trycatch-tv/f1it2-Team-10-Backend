@@ -2,7 +2,7 @@ package com.api.citasync.dto;
 
 import com.api.citasync.models.Cita;
 import com.api.citasync.models.Estado;
-import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Time;
 import java.time.LocalDate;
+
 
 @Builder
 @Tag(name = "Cita")
@@ -39,6 +40,7 @@ public record CitaDto(
         @NotNull
         @Size(min = 10, max = 1000, message= "El tamaño del campo debe estar entre 10 y 1000 caracteres")
         String detalles,
+        
         @Schema(description = "El estado de la cita")
         Estado estado) {
 
