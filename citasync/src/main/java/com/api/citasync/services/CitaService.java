@@ -2,7 +2,7 @@ package com.api.citasync.services;
 
 import com.api.citasync.dto.CitaDtoActualizar;
 import com.api.citasync.dto.CitaDto;
-import com.api.citasync.exceptions.CitaExistenteExceptcion;
+import com.api.citasync.exceptions.CitaExistenteException;
 import com.api.citasync.models.Cita;
 import com.api.citasync.models.Estado;
 import com.api.citasync.repositories.CitaRepository;
@@ -14,7 +14,9 @@ import java.util.List;
 
 @Service
 public class CitaService {
+    private final String CITA_NO_ENCONTRADA = "No fue encontrada la cita con el ID: ";
     private final CitaRepository citaRepository;
+
     @Autowired
     public CitaService(CitaRepository citaRepository) {
         this.citaRepository = citaRepository;
@@ -26,9 +28,13 @@ public class CitaService {
      * @return CitaDto con la cita creada como una respuesta JSON
      */
     public CitaDto crearCita(CitaDto datosCita) {
-        if (citaRepository.existsByFechaAndHoraAndEstadoIn(datosCita.fecha(),
-                datosCita.hora(), List.of(Estado.AGENDADA, Estado.REAGENDADA))){
-            throw new CitaExistenteExceptcion("Ya existe una cita en esta Fecha y hora");
+        try {
+            if (citaRepository.existsByFechaAndHoraAndEstadoIn(datosCita.fecha(),
+                    datosCita.hora(), List.of(Estado.AGENDADA, Estado.REAGENDADA))){
+                throw new CitaExistenteException("Ya existe una cita en esta Fecha y hora");
+            }
+        } catch (CitaExistenteException e) {
+            System.out.println(e.getMessage());
         }
         Cita cita = CitaDto.toEntity(datosCita);
         cita.setEstado(Estado.AGENDADA);
@@ -39,7 +45,7 @@ public class CitaService {
      * Lista todas las citas
      * @return List<CitaDto> con todas las citas
      */
-    public List<CitaDto> ListarCitas(){
+    public List<CitaDto> listarCitas(){
         return citaRepository.findAllByEstadoNotIn(List.of(Estado.FINALIZADA, Estado.CANCELADA))
                 .stream()
                 .map(CitaDto::fromEntity)
@@ -52,7 +58,7 @@ public class CitaService {
      * @return CitaDto con la cita encontrada con los datos
      */
     public CitaDto buscarCita(Long id){
-        return CitaDto.fromEntity(citaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cita no encontrada")));
+        return CitaDto.fromEntity(citaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(CITA_NO_ENCONTRADA + id)));
     }
 
     /**
@@ -62,9 +68,25 @@ public class CitaService {
      * @return CitaDto con la cita actualizada con los datos
      */
     public CitaDto actualizarCita(Long id, CitaDtoActualizar datosCita){
-        citaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cita no encontrada"));
+        citaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(CITA_NO_ENCONTRADA + id));
         Cita cita = citaRepository.getReferenceById(id);
-        cita.actualizarDatos(datosCita);
+        if (datosCita.fecha() != null ){
+            cita.setFecha(datosCita.fecha());
+            cita.setEstado(Estado.REAGENDADA);
+        }
+        if (datosCita.hora() != null ){
+            cita.setHora(datosCita.hora());
+            cita.setEstado(Estado.REAGENDADA);
+        }
+        if (datosCita.duracion() != null ){
+            cita.setDuracion(datosCita.duracion());
+        }
+        if (datosCita.ubicacion() != null ){
+            cita.setUbicacion(datosCita.ubicacion());
+        }
+        if (datosCita.detalles() != null ){
+            cita.setDetalles(datosCita.detalles());
+        }
         return CitaDto.fromEntity(cita);
     }
 
@@ -73,8 +95,9 @@ public class CitaService {
      * @param id id de la cita
      */
     public void cancelarCita(Long id){
-        citaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cita no encontrada"));
+        citaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(CITA_NO_ENCONTRADA + id));
         Cita cita = citaRepository.getReferenceById(id);
         cita.setEstado(Estado.CANCELADA);
     }
+
 }

@@ -14,8 +14,8 @@ import java.util.List;
 public class HandlerExceptions {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<ErrorMessage>> MethodArgumentNotValidException(MethodArgumentNotValidException e){
-        var errores = e.getFieldErrors().stream().map(f-> ErrorMessage.builder().
+    public ResponseEntity<List<ErrorMessage>> gestionarException(MethodArgumentNotValidException e){
+        List<ErrorMessage> errores = e.getFieldErrors().stream().map(f -> ErrorMessage.builder().
                         campo(f.getField()).
                         mensaje(f.getDefaultMessage()).build())
                 .toList();
@@ -23,20 +23,20 @@ public class HandlerExceptions {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<?> EntityNotFoundException(EntityNotFoundException e){
+    public ResponseEntity<ErrorMessage> gestionarException(EntityNotFoundException e){
         ErrorMessage error = ErrorMessage.builder().mensaje(e.getMessage()).build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(CitaExistenteExceptcion.class)
-    public ResponseEntity<?> CitaExistenteExcepcion(CitaExistenteExceptcion e){
+    @ExceptionHandler(CitaExistenteException.class)
+    public ResponseEntity<ErrorMessage> gestionarException(CitaExistenteException e){
         ErrorMessage error = ErrorMessage.builder().mensaje(e.getMessage()).build();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
 
     @ExceptionHandler(DateTimeParseException.class)
-    public ResponseEntity<?> DateTimeParseException(DateTimeParseException e){
+    public ResponseEntity<ErrorMessage> gestionarException(DateTimeParseException e){
         String mensaje = "El formato de fecha es incorrecto. Debe ser en formato yyyy-MM-dd.";
         ErrorMessage error = ErrorMessage.builder().mensaje(mensaje).build();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);

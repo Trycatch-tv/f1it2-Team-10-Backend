@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Tag(name = "Actualizar Cita")
 public record CitaDtoActualizar(
