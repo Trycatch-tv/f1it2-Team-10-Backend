@@ -1,6 +1,9 @@
 # f1it2-Team-10-Backend
 Repositorio Backend Team-10 Agenda de Citas
 
+![image](https://github.com/Trycatch-tv/f1it2-Team-10-Backend/assets/122529721/0f8d0215-04fc-49f1-907b-e3bec9cd1508)
+
+
 # **Documentación del Backend - MyApp**
 
 ## **Tabla de contenidos**
