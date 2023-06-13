@@ -1,13 +1,12 @@
 package com.api.citasync.models;
 
-import com.api.citasync.dto.CitaDtoActualizar;
 import jakarta.persistence.*;
 import lombok.*;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -40,23 +39,4 @@ public class Cita {
     @Enumerated(EnumType.STRING)
     private Estado estado;
 
-    public void actualizarDatos(CitaDtoActualizar datosCita) {
-        if (datosCita.fecha() != null ){
-            this.fecha = datosCita.fecha();
-            this.estado = Estado.REAGENDADA;
-        }
-        if (datosCita.hora() != null ){
-            this.hora = datosCita.hora();
-            this.estado = Estado.REAGENDADA;
-        }
-        if (datosCita.duracion() != null ){
-            this.duracion = datosCita.duracion();
-        }
-        if (datosCita.ubicacion() != null ){
-            this.ubicacion = datosCita.ubicacion();
-        }
-        if (datosCita.detalles() != null ){
-            this.detalles = datosCita.detalles();
-        }
-    }
 }

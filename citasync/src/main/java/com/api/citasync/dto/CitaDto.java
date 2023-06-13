@@ -2,7 +2,6 @@ package com.api.citasync.dto;
 
 import com.api.citasync.models.Cita;
 import com.api.citasync.models.Estado;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
