@@ -2,8 +2,11 @@ package com.api.citasync.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.sql.Time;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -12,7 +15,11 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "citas")
-public class Cita {
+public class Cita implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -3655210176873555969L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,7 +31,7 @@ public class Cita {
     private LocalDate fecha;
 
     @Column(name = "hora_cita")
-    private Time hora;
+    private LocalTime hora;
 
     @Column(name = "duracion")
     private int duracion;

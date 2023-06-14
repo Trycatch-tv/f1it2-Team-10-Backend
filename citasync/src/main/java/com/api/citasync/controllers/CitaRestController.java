@@ -1,7 +1,8 @@
 package com.api.citasync.controllers;
 
-import com.api.citasync.dto.CitaDtoActualizar;
-import com.api.citasync.dto.CitaDto;
+import com.api.citasync.dto.CitaRespuestaDto;
+import com.api.citasync.dto.CitaSolicitudDto;
+import com.api.citasync.exceptions.CitaExistenteException;
 import com.api.citasync.services.CitaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,9 +37,10 @@ public class CitaRestController {
         @ApiResponse(responseCode = "200", description = "Cita encontrada"),
         @ApiResponse(responseCode = "404", description = "Cita no encontrada")
     })
-    public ResponseEntity<CitaDto> buscarCita(@PathVariable Long id) {
+    public ResponseEntity<CitaRespuestaDto> buscarCita(@PathVariable Long id) {
         return ResponseEntity.ok(citaService.buscarCita(id));
     }
+
     /**
      * Recuperar todas las citas de la base de datos
      * @return la lista de citas como una respuesta JSON
@@ -48,7 +50,7 @@ public class CitaRestController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Lista de citas encontrada"),
     })
-    public ResponseEntity<List<CitaDto>> listarCitas() {
+    public ResponseEntity<List<CitaRespuestaDto>> listarCitas() {
         return ResponseEntity.ok(citaService.listarCitas());
     }
 
@@ -65,27 +67,24 @@ public class CitaRestController {
             @ApiResponse(responseCode = "409", description = "Cita ya existe")
 
     })
-    public ResponseEntity<CitaDto> crearCita(@RequestBody @Valid CitaDto cita ) {
-        CitaDto createdCita = citaService.crearCita(cita);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdCita);
+    public ResponseEntity<CitaRespuestaDto> crearCita(@RequestBody @Valid CitaSolicitudDto cita ) throws CitaExistenteException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(citaService.crearCita(cita));
     }
 
     /**
      * Actualizar una cita en la base de datos
-     * @param id identificador de la cita
      * @param cita cuerpo de la solicitud JSON
      * @return la cita actualizada como una respuesta JSON con un código de estado 200
      */
-    @PutMapping("/{id}")
+    @PutMapping()
     @Transactional
     @Operation(summary = "Actualizar una cita en la base de datos")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Cita actualizada"),
         @ApiResponse(responseCode = "404", description = "Cita no encontrada")
     })
-    public ResponseEntity<CitaDto> actualizarCita(@PathVariable Long id, @RequestBody CitaDtoActualizar cita){
-        CitaDto citaActualizada = citaService.actualizarCita(id, cita);
-        return ResponseEntity.ok(citaActualizada);
+    public ResponseEntity<CitaRespuestaDto> actualizarCita(@RequestBody @Valid CitaSolicitudDto cita){
+        return ResponseEntity.ok(citaService.actualizarCita(cita));
     }
 
     /**
@@ -93,7 +92,6 @@ public class CitaRestController {
      * @param id identificador de la cita
      * @return código de estado 200
      */
-
     @DeleteMapping("/{id}")
     @Transactional
     @Operation(summary = "Cancelar (Eliminar) una cita en la base de datos")
