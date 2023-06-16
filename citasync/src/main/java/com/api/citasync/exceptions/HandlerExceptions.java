@@ -12,6 +12,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+
 /**
  * Clase que representa el manejo de excepciones de la aplicación.
  */
@@ -22,8 +23,11 @@ public class HandlerExceptions {
      * Maneja las excepciones de validación de los parametros de entrada.
      *
      * @param e exception de validación de los parametros de entrada.
-     * @return una respuesta HTTP 400 con los errores de validación.
+     * @return una respuesta HTTP con los errores de validación.
      */
+@RestControllerAdvice
+public class HandlerExceptions {
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<ErrorMessage>> gestionarException(MethodArgumentNotValidException e){
         return ResponseEntity.badRequest().body(e.getFieldErrors().stream()
@@ -44,6 +48,7 @@ public class HandlerExceptions {
         return ResponseEntity.status(NOT_FOUND).body(ErrorMessage.builder().mensaje(e.getMessage()).build());
     }
 
+
     /**
      * Maneja las excepciones de cita existente.
      *
@@ -54,6 +59,7 @@ public class HandlerExceptions {
     public ResponseEntity<ErrorMessage> gestionarException(CitaExistenteException e){
         return ResponseEntity.status(CONFLICT).body(ErrorMessage.builder().mensaje(e.getMessage()).build());
     }
+
 
     /**
      * Maneja las excepciones de formato de fecha incorrecto.

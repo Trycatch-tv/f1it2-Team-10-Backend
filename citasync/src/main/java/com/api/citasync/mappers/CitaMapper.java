@@ -5,6 +5,7 @@ import com.api.citasync.dto.CitaSolicitudDto;
 import com.api.citasync.models.Cita;
 import lombok.NoArgsConstructor;
 
+
 /**
  * Clase que se encarga de mappear los datos de una cita a un objeto tipo CitaRespuestaDto y viceversa.
  */

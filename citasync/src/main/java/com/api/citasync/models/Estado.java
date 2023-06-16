@@ -1,5 +1,6 @@
 package com.api.citasync.models;
 
+
 /**
  * Enumera los estados de una cita
  */

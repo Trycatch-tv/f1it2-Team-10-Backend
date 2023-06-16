@@ -11,6 +11,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+
 /**
  * Contiene los atributos de la cita que se solicita.
  */
@@ -31,7 +32,7 @@ public record CitaSolicitudDto(
         @NotBlank(message = "La ubicación es obligatoria")
         String ubicacion,
         @Schema(description = "Los detalles de la cita")
-        @NotNull()
+        @NotNull(message = "Agrega algún detalle de la cita")
         @Size(min = 10, max = 1000, message= "El tamaño del campo debe estar entre 10 y 1000 caracteres")
         String detalles) implements Serializable {
 
