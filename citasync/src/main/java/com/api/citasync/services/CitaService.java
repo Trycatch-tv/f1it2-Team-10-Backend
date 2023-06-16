@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Servicio para las citas.
+ */
 @Service
 public class CitaService {
     private final String CITA_NO_ENCONTRADA = "No fue encontrada la cita con el ID: ";
@@ -24,9 +27,11 @@ public class CitaService {
     }
 
     /**
-     * Crear una nueva cita en la base de datos
-     * @param datosCita cuerpo de la solicitud JSON
-     * @return CitaDto con la cita creada como una respuesta JSON
+     * Crear una nueva cita.
+     *
+     * @param datosCita solicitud con los datos de la cita
+     * @return datos de la cita creada.
+     * @throws CitaExistenteException si ya existe una cita en la fecha y hora.
      */
     public CitaRespuestaDto crearCita(CitaSolicitudDto datosCita) throws CitaExistenteException {
             if (citaRepository.existsByFechaAndHoraAndEstadoIn(datosCita.dateTime().toLocalDate(),
@@ -40,8 +45,9 @@ public class CitaService {
     }
 
     /**
-     * Lista todas las citas
-     * @return List<CitaDto> con todas las citas
+     * Lista todas las citas.
+     *
+     * @return una lista con todas las citas.
      */
     public List<CitaRespuestaDto> listarCitas(){
         return citaRepository.findAllByEstadoNotIn(List.of(Estado.FINALIZADA, Estado.CANCELADA))
@@ -51,9 +57,10 @@ public class CitaService {
     }
 
     /**
-     * Buscar una cita en la base de datos
+     * Buscar una cita a partir de su ID.
+     *
      * @param id id de la cita
-     * @return CitaDto con la cita encontrada con los datos
+     * @return datos de la cita encontrada.
      */
     public CitaRespuestaDto buscarCita(Long id){
         return CitaMapper.toCitaRespuestaDto(citaRepository.findById(id)
@@ -61,9 +68,10 @@ public class CitaService {
     }
 
     /**
-     * Actualizar una cita en la base de datos
-     * @param datosCita cuerpo de la solicitud JSON
-     * @return CitaDto con la cita actualizada con los datos
+     * Actualizar una cita.
+     *
+     * @param datosCita solicitud con los datos de la cita.
+     * @return datos de la cita actualizada.
      */
     public CitaRespuestaDto actualizarCita(CitaSolicitudDto datosCita){
         final Cita cita = citaRepository.getReferenceById(citaRepository.findById(datosCita.id())
@@ -83,8 +91,9 @@ public class CitaService {
     }
 
     /**
-     * Cancelar una cita en la base de datos
-     * @param id id de la cita
+     * Cancelar una cita.
+     *
+     * @param id el id de la cita.
      */
     public void cancelarCita(Long id){
         final Cita cita = citaRepository.getReferenceById(citaRepository.findById(id)

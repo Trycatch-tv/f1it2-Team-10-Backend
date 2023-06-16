@@ -9,6 +9,9 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * Contiene los atributos de la cita consultada.
+ */
 @Builder
 @Tag(name = "Actualizar Cita")
 public record CitaRespuestaDto(

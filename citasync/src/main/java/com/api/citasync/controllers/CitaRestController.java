@@ -16,6 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+/**
+ * Controlador Rest para la gestión de citas.
+ */
 @RestController
 @RequestMapping("/api/citas")
 @Tag(name = "Citas Rest Controller API")
@@ -27,9 +30,10 @@ public class CitaRestController {
     }
 
     /**
-     * Buscar una cita en la base de datos
-     * @param id id de la cita
-     * @return la cita con el {id} indicado como una respuesta JSON
+     * Buscar una cita en la base de datos.
+     *
+     * @param id id de la cita.
+     * @return la cita con el {@code id} indicado como una respuesta JSON.
      */
     @GetMapping("/{id}")
     @Operation(summary = "Buscar una cita en la base de datos")
@@ -42,8 +46,9 @@ public class CitaRestController {
     }
 
     /**
-     * Recuperar todas las citas de la base de datos
-     * @return la lista de citas como una respuesta JSON
+     * Recuperar todas las citas de la base de datos.
+     *
+     * @return la lista de citas como una respuesta JSON.
      */
     @GetMapping()
     @Operation(summary = "Recuperar todas las citas de la base de datos")
@@ -55,9 +60,11 @@ public class CitaRestController {
     }
 
     /**
-     * Crear una nueva cita en la base de datos
-     * @param cita cuerpo de la solicitud JSON
-     * @return la cita creada como una respuesta JSON con un código de estado 201
+     * Crear una nueva cita.
+     *
+     * @param cita cuerpo de la solicitud JSON.
+     * @return la cita creada como una respuesta JSON con un código de estado 201.
+     * @throws CitaExistenteException si la cita ya existe validando la fecha y hora.
      */
     @PostMapping()
     @Operation(summary = "Crear una nueva cita en la base de datos")
@@ -72,9 +79,10 @@ public class CitaRestController {
     }
 
     /**
-     * Actualizar una cita en la base de datos
-     * @param cita cuerpo de la solicitud JSON
-     * @return la cita actualizada como una respuesta JSON con un código de estado 200
+     * Actualizar una cita.
+     *
+     * @param cita cuerpo de la solicitud JSON.
+     * @return la cita actualizada como una respuesta JSON con un código de estado 200.
      */
     @PutMapping()
     @Transactional
@@ -88,9 +96,10 @@ public class CitaRestController {
     }
 
     /**
-     * Cancelar (Eliminar) una cita en la base de datos
-     * @param id identificador de la cita
-     * @return código de estado 200
+     * Eliminar una cita por si {@code id}.
+     *
+     * @param id identificador de la cita.
+     * @return una repuesta vacía con un codigo de estado 204.
      */
     @DeleteMapping("/{id}")
     @Transactional

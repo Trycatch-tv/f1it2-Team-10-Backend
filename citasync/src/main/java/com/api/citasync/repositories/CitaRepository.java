@@ -10,6 +10,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * Repositorio de la entidad Cita.
+ */
 @Repository
 public interface CitaRepository extends JpaRepository<Cita, Long> {
     boolean existsByFechaAndHoraAndEstadoIn(LocalDate fecha, LocalTime hora, List<Estado> estados);

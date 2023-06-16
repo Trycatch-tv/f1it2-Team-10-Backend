@@ -12,6 +12,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
+/**
+ * Contiene los atributos de la cita que se solicita.
+ */
 @Builder
 @Tag(name = "Cita")
 public record CitaSolicitudDto(
