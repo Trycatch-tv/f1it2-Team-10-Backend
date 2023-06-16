@@ -1,23 +1,27 @@
 package com.api.citasync.models;
 
-import com.api.citasync.dto.CitaActualizarDto;
-import com.api.citasync.dto.CitaDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.sql.Time;
-import java.util.Date;
-
-@Getter//Métodos Getters
-@Setter//Métodos Setters
-@NoArgsConstructor//constructor sin parametros
-@AllArgsConstructor//constructor con parametros
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
+/**
+ * Entidad Cita.
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "citas")
-public class Cita {
+public class Cita implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -3655210176873555969L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,11 +29,11 @@ public class Cita {
     @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "fecha_cita" ,unique = true)
-    private Date fecha;
+    @Column(name = "fecha_cita")
+    private LocalDate fecha;
 
-    @Column(name = "hora_cita" ,unique = true)
-    private Time hora;
+    @Column(name = "hora_cita")
+    private LocalTime hora;
 
     @Column(name = "duracion")
     private int duracion;
@@ -41,25 +45,7 @@ public class Cita {
     private String detalles;
 
     @Column(name = "estado")
-    private String estado;
-
-    public Cita(CitaDto datosCita) {
-        this.nombre = datosCita.nombre();
-        this.fecha = datosCita.fecha();
-        this.hora = datosCita.hora();
-        this.duracion = datosCita.duracion();
-        this.ubicacion = datosCita.ubicacion();
-        this.detalles = datosCita.detalles();
-        this.estado = datosCita.estado();
-    }
-    public void actualizar(CitaActualizarDto datosCita) {
-        this.nombre = datosCita.nombre();
-        this.fecha = datosCita.fecha();
-        this.hora = datosCita.hora();
-        this.duracion = datosCita.duracion();
-        this.ubicacion = datosCita.ubicacion();
-        this.detalles = datosCita.detalles();
-        this.estado = datosCita.estado();
-    }
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
 
 }

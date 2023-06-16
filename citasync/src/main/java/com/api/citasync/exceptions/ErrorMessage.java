@@ -1,15 +1,12 @@
 package com.api.citasync.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-
-@Getter
+/**
+ * Clase que representa el mensaje de error.
+ */
 @Builder
-@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class ErrorMessage {
-    private String campo;
-    private String mensaje;
+public record ErrorMessage (String campo, String mensaje){
+
 }
