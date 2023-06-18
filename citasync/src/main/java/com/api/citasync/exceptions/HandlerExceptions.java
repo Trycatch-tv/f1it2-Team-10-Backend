@@ -25,9 +25,6 @@ public class HandlerExceptions {
      * @param e exception de validación de los parametros de entrada.
      * @return una respuesta HTTP con los errores de validación.
      */
-@RestControllerAdvice
-public class HandlerExceptions {
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<ErrorMessage>> gestionarException(MethodArgumentNotValidException e){
         return ResponseEntity.badRequest().body(e.getFieldErrors().stream()
@@ -74,5 +71,5 @@ public class HandlerExceptions {
                         .mensaje("El formato de fecha es incorrecto. Debe ser en formato yyyy-MM-dd HH:mm:ss")
                         .build());
     }
-
 }
+
