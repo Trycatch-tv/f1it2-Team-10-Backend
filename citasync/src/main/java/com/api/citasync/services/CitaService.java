@@ -34,10 +34,10 @@ public class CitaService {
      * @throws CitaExistenteException si ya existe una cita en la fecha y hora.
      */
     public CitaRespuestaDto crearCita(CitaSolicitudDto datosCita) throws CitaExistenteException {
-            if (citaRepository.existsByFechaAndHoraAndEstadoIn(datosCita.dateTime().toLocalDate(),
-                    datosCita.dateTime().toLocalTime(), List.of(Estado.AGENDADA, Estado.REAGENDADA))){
-                throw new CitaExistenteException("Ya existe una cita en esta Fecha y hora");
-            }
+        if (citaRepository.existsByFechaAndHoraAndEstadoIn(datosCita.dateTime().toLocalDate(),
+                datosCita.dateTime().toLocalTime(), List.of(Estado.AGENDADA, Estado.REAGENDADA))) {
+            throw new CitaExistenteException("Ya existe una cita en esta Fecha y hora");
+        }
 
         Cita cita = CitaMapper.toEntity(datosCita);
         cita.setEstado(Estado.AGENDADA);
@@ -49,7 +49,7 @@ public class CitaService {
      *
      * @return una lista con todas las citas.
      */
-    public List<CitaRespuestaDto> listarCitas(){
+    public List<CitaRespuestaDto> listarCitas() {
         return citaRepository.findAllByEstadoNotIn(List.of(Estado.FINALIZADA, Estado.CANCELADA))
                 .stream()
                 .map(CitaMapper::toCitaRespuestaDto)
@@ -62,7 +62,7 @@ public class CitaService {
      * @param id id de la cita
      * @return datos de la cita encontrada.
      */
-    public CitaRespuestaDto buscarCita(Long id){
+    public CitaRespuestaDto buscarCita(Long id) {
         return CitaMapper.toCitaRespuestaDto(citaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(CITA_NO_ENCONTRADA + id)));
     }
@@ -73,13 +73,14 @@ public class CitaService {
      * @param datosCita solicitud con los datos de la cita.
      * @return datos de la cita actualizada.
      */
-    public CitaRespuestaDto actualizarCita(CitaSolicitudDto datosCita){
+    public CitaRespuestaDto actualizarCita(final CitaSolicitudDto datosCita) {
         final Cita cita = citaRepository.getReferenceById(citaRepository.findById(datosCita.id())
                 .orElseThrow(() -> new EntityNotFoundException(CITA_NO_ENCONTRADA + datosCita.id())).getId());
         return CitaMapper.toCitaRespuestaDto(actualizarDatos(cita, datosCita));
     }
 
-    private Cita actualizarDatos(Cita cita, CitaSolicitudDto datosCita){
+    private Cita actualizarDatos(final Cita cita, final CitaSolicitudDto datosCita) {
+        cita.setNombre(datosCita.nombre());
         cita.setFecha(datosCita.dateTime().toLocalDate());
         cita.setHora(datosCita.dateTime().toLocalTime());
         cita.setEstado(Estado.REAGENDADA);
@@ -87,7 +88,7 @@ public class CitaService {
         cita.setDetalles(datosCita.detalles());
         cita.setUbicacion(datosCita.ubicacion());
 
-        return cita;
+        return citaRepository.saveAndFlush(cita);
     }
 
     /**
@@ -95,7 +96,7 @@ public class CitaService {
      *
      * @param id el id de la cita.
      */
-    public void cancelarCita(Long id){
+    public void cancelarCita(Long id) {
         final Cita cita = citaRepository.getReferenceById(citaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(CITA_NO_ENCONTRADA + id)).getId());
         cita.setEstado(Estado.CANCELADA);
